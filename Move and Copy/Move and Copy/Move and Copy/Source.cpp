@@ -7,70 +7,67 @@
 
 using namespace std;
 
-class copy_cls
+class A 
+{
+public:
+	A()
+	{
+		cout << "Constructor: A" << endl;
+	}
+
+	A(const A& ref)
+	{
+		cout << "Copy constructor: A" << endl;
+	}
+};
+
+
+class B
+{
+public:
+	B()
+	{
+		cout << "Constructor: B" << endl;
+	}
+
+	B(const B& ref)
+	{
+		cout << "Copy constructor: B" << endl;
+	}
+
+	A a;
+};
+
+class C
 {
 public:
 
-	char* str;
-	string sstr;
-
-	copy_cls()
+	C()
 	{
-		str = new char[10];
-		strcpy(str, "Hello");
-		sstr = "Hello";
-		cout << "Constructor called" << endl;
+		cout << "Constructor: C" << endl;
 	}
 
-	void print_string()
-	{
-		cout << str << endl;
-	}
 
-	void print_sstr()
-	{
-		cout << sstr << endl;
-	}
+	A a;
 };
 
 int main()
 {
-	copy_cls a;
+	// both constructor called
+	B b;
 
-	// Only the default copy constructor will be called
-	// default copy constructor does a member wise copy
-	// so a pointer will be copied, not the contents
 
-	// string will be copied since it is a STL class and it has its own copy constructor which will be called during memberwise copy
-	// in its copy constructor, it copies content
-	copy_cls b = a;
+	// Copy constructor of B and Constructor of A
+	B bb = b;
 
-	cout << "Before Modification:" << endl;
-	
-	// char string
-	a.print_string();
-	b.print_string();
 
-	// string
-	a.print_sstr();
-	b.print_sstr();
-	
-	// both class a.str and b.str content will be modified.
-	a.str[0] =  'L';
+	// Both constructor called
+	C c;
 
-	// b's vector wont be modified 
-	a.sstr[0] = 'L';
 
-	cout << "After Modification:" << endl;
-	
-	// string
-	a.print_string();
-	b.print_string();
 
-	// string
-	a.print_sstr();
-	b.print_sstr();
-
+	// Both copy constructor called, cause in default copy cosntructor compiler add code to call the copy constructor of A with ref.a
+	C cc = c;
 
 	getchar();
 	return 0;
