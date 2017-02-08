@@ -42,10 +42,11 @@ public:
 		cout << "Copy constructor: B" << endl;
 	}
 
-	/*B(B&& other)
+	// important: we need to use move here
+	B(B&& other) : a(move(other.a))
 	{
 		cout << "Move constructor: B" << endl;
-	}*/
+	}
 
 };
 
@@ -63,13 +64,13 @@ int main()
 	// copy constructor of A and B
 	B bb = b;
 
-	// Since there is a copy constructor of B and no move constructor,
-	// both copy constructor will be called and no move constructor will be called
+	// There is a move constructor of B, so it will be called
+	// From there, the move constructor of A will be called
 	B bbb = move(b);
 
 
-	// Since there is a copy constructor of B and no move constructor,
-	// both copy constructor will be called and no move constructor will be called
+	// There is a move constructor of B, so it will be called
+	// From there, the move constructor of A will be called
 	B bbbb = get_object();
 
 	getchar();
