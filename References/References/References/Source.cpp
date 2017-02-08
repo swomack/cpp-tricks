@@ -32,12 +32,37 @@ public:
 
 	B(B& a)
 	{
-		cout << "Copy constructor" << endl;
+		//cout << "Copy constructor" << endl;
 	}
 
 	void copy(A& a)
 	{
 		a.change(10);
+	}
+};
+
+
+class C
+{
+public:
+	C()
+	{
+		cout << "CTor" << endl;
+	}
+
+	C(const C&)
+	{
+		cout << "Copy CTor" << endl;
+	}
+
+	C(const C&&)
+	{
+		cout << "Move CTor" << endl;
+	}
+
+	~C()
+	{
+		cout << "DTor" << endl;
 	}
 };
 
@@ -58,6 +83,13 @@ int main()
 	// both of the case the copy constructor is called, r-value and l-value case
 	B bb = get_bb();
 	B bbb = b;
+
+
+	// 
+
+	C c;
+	C cc = move(c); // what happened  to c? undefined
+
 
 	getchar();
 
