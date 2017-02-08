@@ -51,23 +51,28 @@ public:
 	A a;
 };
 
+
+B get_b_object()
+{
+	B b;
+	return b;
+}
+
+C get_c_object()
+{
+	C c;
+	return c;
+}
+
 int main()
 {
-	// both constructor called
-	B b;
+	// Copy constructor calls is recusrive from default copy constructor
 
+	// copy constructor and constructor behavior when return from function
+	B b = get_b_object();
 
-	// Copy constructor of B and Constructor of A
-	B bb = b;
-
-
-	// Both constructor called
-	C c;
-
-
-
-	// Both copy constructor called, cause in default copy cosntructor compiler add code to call the copy constructor of A with ref.a
-	C cc = c;
+	// copy constructor and constructor behavior when return from function
+	C c = get_c_object();
 
 	getchar();
 	return 0;
