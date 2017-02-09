@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 
 using namespace std;
@@ -7,17 +8,20 @@ using namespace std;
 class A
 {
 public:
-	A(int k) : x(k)
+	A()
 	{
-
+		cout << "Ctor: A" << endl;
 	}
 
-	void change(int a)
+	A(const A&)
 	{
-		x = a;
+		cout << "Copy Ctor: A" << endl;
 	}
 
-	int x;
+	~A()
+	{
+		cout << "Dtor: A" << endl;
+	}
 };
 
 
@@ -25,70 +29,35 @@ class B
 {
 public:
 
-	B()
+	B(A& arg) : a(arg)
 	{
-
+		cout << "Ctor: B" << endl;
 	}
 
-	B(B& a)
+	B(const B&)
 	{
-		//cout << "Copy constructor" << endl;
+		cout << "Copy Ctor: B" << endl;
 	}
 
-	void copy(A& a)
+	~B()
 	{
-		a.change(10);
+		cout << "Dtor: B" << endl;
 	}
+
+
+	A a;
 };
 
 
-class C
+template<typename T, typename Arg>
+shared_ptr<T> factory(Arg arg)
 {
-public:
-	C()
-	{
-		cout << "CTor" << endl;
-	}
-
-	C(const C&)
-	{
-		cout << "Copy CTor" << endl;
-	}
-
-	C(const C&&)
-	{
-		cout << "Move CTor" << endl;
-	}
-
-	~C()
-	{
-		cout << "DTor" << endl;
-	}
-};
-
-
-B get_bb()
-{
-	B b;
-	return b;
+	return shared_ptr<T>(new T(arg));
 }
 
 int main()
 {
-	B b;
-
-	// passing r-value in a l-value reference in visual studio update-2 is valid
-	b.copy(A(20));
-
-	// both of the case the copy constructor is called, r-value and l-value case
-	B bb = get_bb();
-	B bbb = b;
-
-
-	// 
-
-	C c;
-	C cc = move(c); // what happened  to c? undefined
+	shared_ptr<B> b = factory<B>(A());
 
 
 	getchar();
